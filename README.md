@@ -4,6 +4,9 @@ A user, browser, and text-based RPG.
 ## How?
 Using a Django-Python-powered CRUD/REST API to manage data, like campaigns, campaign assets, save data, and users, and a React-TypeScript frontend to display and play, this game will aim to be robust and dynamic and allowing for user-creativity and sharing.
 
+## Can I play?
+Hold on there, pardner! This project isn't even out of it's planning phase yet!
+
 # Design
 
 ## User Stories
