@@ -64,5 +64,9 @@ Battle Screen:
 Shop Screen:
 ![Wireframe mockup of a shop screen](md-assets/wireframes/screen-main-shop.png)
 
-Campaign Creation Screen:
+Campaign Creation Screen (Stretch!):
 ![Wireframe mockup of the campaign creation screen](md-assets/wireframes/screen-creation.png)
+
+## Entity Relationship Diagrams
+### MVP
+![ERD containing two models: A "user" model, and a "save" model](md-assets/erd/tavlia-mvp-erd.png)
