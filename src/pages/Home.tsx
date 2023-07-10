@@ -11,7 +11,7 @@ export default function Home():ReactElement{
             <p>
                 Wanna play?
             </p>
-            <Link to={"#"} className="home-play-btn" id="home-play-btn">Play now!</Link>
+            <Link to={"/game"} className="home-play-btn" id="home-play-btn">Play now!</Link>
 
         </div>
     )
