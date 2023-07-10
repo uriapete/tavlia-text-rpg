@@ -6,7 +6,7 @@ import Game from './pages/Game';
 function App() {
   return (
     <div className="App">
-      
+      <h1 className="title">Tavlia</h1>
       <Routes>
         <Route path='' element={Home()} />
         <Route path='game' element={Game()} />
