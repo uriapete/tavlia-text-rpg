@@ -4,7 +4,7 @@ import "./styles/Home.scss"
 
 export default function Home():ReactElement{
     return(
-        <div className="comp comp-home">
+        <div className="page page-home">
             <h1 className="home-title">Tavlia</h1>
             <p>Hello! Welcome to Tavlia!</p>
             <p>Currently a work in progress!</p>
