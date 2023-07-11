@@ -4,6 +4,16 @@ import IMagicalAttack from "../skills/IMagicalAttack";
 import IPhysicalAttack from "../skills/IPhysicalAttack";
 import ISkill from "../skills/ISkill";
 
+export enum EntityStatNames{
+    maxHP="maxHP",
+    maxMana="maxMana",
+    physAtt="physAtt",
+    magicAtt="magicAtt",
+    physDef="physDef",
+    magicDef="magicDef",
+    speed="speed",
+}
+
 export default interface IEntity{
     name?:string;
     bio?:string;
