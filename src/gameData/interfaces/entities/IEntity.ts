@@ -22,7 +22,7 @@ export default interface IEntity{
     // get currMana():number;
 
     physAtt:number;
-    magicalAtt:number;
+    magicAtt:number;
 
     physDef:number;
     magicDef:number;
