@@ -1,3 +1,4 @@
+import IEffect from "../IEffect";
 import IInventorySlot from "../IInventorySlot";
 import IMagicalAttack from "../skills/IMagicalAttack";
 import IPhysicalAttack from "../skills/IPhysicalAttack";
@@ -36,6 +37,8 @@ export default interface IEntity{
     magicSkills:IMagicalAttack[];
 
     inventory:IInventorySlot[];
+
+    activeEffects:IEffect[];
 
     takeDmg(amt:number):number|void;
     healHP(amt:number):number|void;
