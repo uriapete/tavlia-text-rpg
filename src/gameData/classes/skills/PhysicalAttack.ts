@@ -1,6 +1,6 @@
-import IEntity from "../../interfaces/entities/IEntity";
 import IPhysicalAttack from "../../interfaces/skills/IPhysicalAttack";
 import ISkill from "../../interfaces/skills/ISkill";
+import Entity from "../entities/Entity";
 import Skill from "./Skill";
 
 export default class PhysicalAttack extends Skill implements IPhysicalAttack,ISkill{
@@ -10,7 +10,7 @@ export default class PhysicalAttack extends Skill implements IPhysicalAttack,ISk
     ){
         super(name,bio)
     }
-    public attack(user:IEntity,target:IEntity){
-        target.takePhysDmg(user.physAtt*this.power)
+    public attack(user:Entity,target:Entity){
+        return target.takePhysDmg(user.physAtt*this.power)
     }
 }
