@@ -60,4 +60,5 @@ export default interface IEntity{
     healHP(amt:number):number|void;
     useMana(amt:number):number|boolean;
     healMana(amt:number):number|void;
+    isDead():boolean;
 }
