@@ -1,8 +1,8 @@
 import IItem from "../IItem";
 import IDungeonLevel from "./IDungeonLevel";
-import ILocation from "./ILocation";
+import IGameLocation from "./IGameLocation";
 
-export default interface IDungeon extends ILocation {
+export default interface IDungeon extends IGameLocation {
     levels:IDungeonLevel[]
     goldReward?:number
     itemReward?:IItem

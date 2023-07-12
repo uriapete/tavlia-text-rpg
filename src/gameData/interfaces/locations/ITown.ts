@@ -1,6 +1,6 @@
 import IShop from "../IShop";
-import ILocation from "./ILocation";
+import IGameLocation from "./IGameLocation";
 
-export default interface ITown extends ILocation{
+export default interface ITown extends IGameLocation{
     shop?:IShop
 }

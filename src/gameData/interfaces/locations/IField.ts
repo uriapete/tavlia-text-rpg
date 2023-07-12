@@ -1,9 +1,9 @@
 import IEnemyEncounterChance from "../IEnemyEncounterChance";
-import ILocation from "./ILocation";
+import IGameLocation from "./IGameLocation";
 
 
 
-export default interface IField extends ILocation{
+export default interface IField extends IGameLocation{
     size?:number;
 
     encounterableEnemies?:IEnemyEncounterChance;
