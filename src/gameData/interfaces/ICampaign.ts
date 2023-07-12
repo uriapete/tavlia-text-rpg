@@ -8,7 +8,8 @@ export interface IGameLocationConnections{
 
 export default interface ICampaign{
     playerChar:PlayerChar
-    locations:IGameLocationConnections[]
+    locations:IGameLocation[]
+    connections:IGameLocationConnections[]
     flag:number
     completionFlag:number
 }
