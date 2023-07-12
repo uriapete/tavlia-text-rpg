@@ -53,6 +53,6 @@ export default interface IEntity{
     takePhysDmg(amt:number):number|void;
     takeMagicDmg(amt:number):number|void;
     healHP(amt:number):number|void;
-    useMana?(amt:number):number|boolean;
-    healMana?(amt:number):number|void;
+    useMana(amt:number):number|boolean;
+    healMana(amt:number):number|void;
 }
