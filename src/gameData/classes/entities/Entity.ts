@@ -112,8 +112,13 @@ export default abstract class Entity implements IEntity {
         return healAmt
     }
 
-    public useMana(amt: number): number {
+    public useMana(amt: number): number|boolean {
         let manaUsed=amt;
+
+        if(manaUsed>this.currMana){
+            return false
+        }
+
         if (manaUsed<0){
             manaUsed=0
         }
