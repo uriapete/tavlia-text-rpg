@@ -48,4 +48,8 @@ export default class Campaign implements ICampaign{
     public checkComplete(){
         return this._flag >= this.completionFlag
     }
+
+    public addLocations(...newLocs:GameLocationConnections[]){
+        return this._locations.push(...newLocs)
+    }
 }
