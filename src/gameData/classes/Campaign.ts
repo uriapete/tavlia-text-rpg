@@ -1,10 +1,11 @@
 import ICampaign, { IGameLocationConnections } from "../interfaces/ICampaign";
+import GameLocation from "./locations/GameLocation";
 import PlayerChar from "./entities/PlayerChar";
 
 export class GameLocationConnections implements IGameLocationConnections{
     constructor(
-        private _location:Location,
-        private _connections:Location[]
+        private _location:GameLocation,
+        private _connections:GameLocation[]
     ){}
 
     public get location(){
