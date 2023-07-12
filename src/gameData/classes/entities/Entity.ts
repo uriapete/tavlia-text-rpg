@@ -87,12 +87,18 @@ export default abstract class Entity implements IEntity {
     }
 
     public takePhysDmg(amt: number): number {
-        const dmg = amt - this.physDef
+        let dmg = amt - this.physDef
+        if (dmg<1){
+            dmg=1
+        }
         this.currHP-=dmg;
         return dmg;
     }
     public takeMagicDmg(amt: number): number {
-        const dmg = amt - this.magicDef
+        let dmg = amt - this.magicDef
+        if (dmg<1){
+            dmg=1
+        }
         this.currHP-=dmg;
         return dmg;
     }
