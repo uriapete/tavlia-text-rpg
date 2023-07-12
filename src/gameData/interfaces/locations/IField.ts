@@ -4,7 +4,7 @@ import ILocation from "./ILocation";
 
 
 export default interface IField extends ILocation{
-    size:number;
+    size?:number;
 
-    encounterableEnemies:IEnemyEncounterChance;
+    encounterableEnemies?:IEnemyEncounterChance;
 }
