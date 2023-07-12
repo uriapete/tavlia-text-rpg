@@ -5,8 +5,9 @@ import Skill from "./Skill";
 
 export default class PhysicalAttack extends Skill implements IPhysicalAttack,ISkill{
     constructor(
-        name:string,bio="",
-        private power:number
+        name:string,
+        private power:number,
+        bio = "",
     ){
         super(name,bio)
     }

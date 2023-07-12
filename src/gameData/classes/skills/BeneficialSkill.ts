@@ -5,9 +5,10 @@ import Skill from "./Skill";
 
 export default class BeneficialSkill extends Skill implements IBeneficialSkill,ISkill{
     constructor(
-        name:string,bio:string="",
+        name:string,
+        private healPower:number,
         protected _manaCost:number=0,
-        private healPower:number
+        bio: string = "",
     ){
         super(name,bio)
     }
