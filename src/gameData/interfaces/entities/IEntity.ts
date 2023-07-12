@@ -14,6 +14,11 @@ export enum EntityStatNames{
     speed="speed",
 }
 
+export interface DmgReturn {
+    dmg: number
+    killed: boolean
+}
+
 export default interface IEntity{
     name?:string;
     bio?:string;
@@ -50,8 +55,8 @@ export default interface IEntity{
 
     activeEffects?:IEffect[];
 
-    takePhysDmg(amt:number):number|void;
-    takeMagicDmg(amt:number):number|void;
+    takePhysDmg(amt:number):DmgReturn;
+    takeMagicDmg(amt:number):DmgReturn;
     healHP(amt:number):number|void;
     useMana(amt:number):number|boolean;
     healMana(amt:number):number|void;
