@@ -111,4 +111,22 @@ export default abstract class Entity implements IEntity {
         this.currHP += healAmt
         return healAmt
     }
+
+    public useMana(amt: number): number {
+        let manaUsed=amt;
+        if (manaUsed<0){
+            manaUsed=0
+        }
+        this.currMana-=manaUsed
+        return manaUsed
+    }
+
+    public healMana(amt: number): number{
+        let healAmt:number=amt
+        if(this.currMana+healAmt>this.maxMana){
+            healAmt=this.maxMana-this.currMana
+        }
+        this.currMana+=healAmt
+        return healAmt
+    }
 }
