@@ -86,9 +86,15 @@ export default abstract class Entity implements IEntity {
         return this._magicSkills
     }
 
-    public takeDmg(amt: number): number {
-        this.currHP-=amt;
-        return amt;
+    public takePhysDmg(amt: number): number {
+        const dmg = amt - this.physDef
+        this.currHP-=dmg;
+        return dmg;
+    }
+    public takeMagicDmg(amt: number): number {
+        const dmg = amt - this.magicDef
+        this.currHP-=dmg;
+        return dmg;
     }
 
     public healHP(amt: number): number | void {
