@@ -6,9 +6,11 @@ import GameLocation from "./GameLocation";
 export default class Dungeon extends GameLocation implements IGameLocation,IDungeon{
     public completed=false;
     constructor(
-        private _levels:DungeonLevel[]
+        name:string,
+        private _levels:DungeonLevel[],
+        bio="",
     ){
-        super()
+        super(name,bio)
     }
     get levels(){
         return this._levels

@@ -5,10 +5,12 @@ import Enemy from "../entities/Enemy";
 
 export default class Field extends GameLocation implements IGameLocation,IField {
     constructor(
-        public enemies:Enemy[]=[],
+        name:string,
         public battleChance:number,
         public size:number,
+        public enemies:Enemy[]=[],
+        bio="",
     ){
-        super()
+        super(name,bio)
     }
 }

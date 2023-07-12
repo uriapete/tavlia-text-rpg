@@ -6,9 +6,11 @@ import Enemy from "../entities/Enemy";
 export default class DungeonLevel extends GameLocation implements IDungeonLevel, IGameLocation {
     public cleared = false
     constructor(
+        name:string,
         private _enemies:Enemy[],
+        bio="",
     ){
-        super()
+        super(name,bio)
     }
 
     public get enemies(){
