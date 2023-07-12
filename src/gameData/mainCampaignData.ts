@@ -7,8 +7,6 @@ import Field from "./classes/locations/Field"
 import Town from "./classes/locations/Town"
 import PhysicalAttack from "./classes/skills/PhysicalAttack"
 
-export {}
-
 const starterTown = new Town("Little Town");
 
 const basicBash = new PhysicalAttack("Bash",1,);
