@@ -44,4 +44,8 @@ export default class Campaign implements ICampaign{
         this._flag++
         return this._flag>=this.completionFlag
     }
+
+    public checkComplete(){
+        return this._flag >= this.completionFlag
+    }
 }
