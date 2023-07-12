@@ -1,4 +1,5 @@
 import ICampaign, { IGameLocationConnections } from "../interfaces/ICampaign";
+import PlayerChar from "./entities/PlayerChar";
 
 export class GameLocationConnections implements IGameLocationConnections{
     constructor(
@@ -37,5 +38,10 @@ export default class Campaign implements ICampaign{
 
     public get completionFlag(){
         return this._completionFlag
+    }
+
+    public iterateFlag(){
+        this._flag++
+        return this._flag>=this.completionFlag
     }
 }
