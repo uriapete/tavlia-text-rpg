@@ -103,8 +103,12 @@ export default abstract class Entity implements IEntity {
         return dmg;
     }
 
-    public healHP(amt: number): number | void {
-        this.currHP+=amt;
-        return amt;
-    }    
+    public healHP(amt: number): number {
+        let healAmt: number = amt
+        if (this.currHP + healAmt > this.maxHP) {
+            healAmt = this.maxHP - this.currHP
+        }
+        this.currHP += healAmt
+        return healAmt
+    }
 }
