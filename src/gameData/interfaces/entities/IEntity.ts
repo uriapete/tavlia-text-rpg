@@ -42,13 +42,13 @@ export default interface IEntity{
 
     basicSkill:ISkill;
 
-    physSkills:IPhysicalAttack[];
+    physSkills?:IPhysicalAttack[];
 
-    magicSkills:IMagicalAttack[];
+    magicSkills?:IMagicalAttack[];
 
-    inventory:IInventorySlot[];
+    inventory?:IInventorySlot[];
 
-    activeEffects:IEffect[];
+    activeEffects?:IEffect[];
 
     takeDmg(amt:number):number|void;
     healHP(amt:number):number|void;
