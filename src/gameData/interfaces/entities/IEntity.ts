@@ -50,7 +50,8 @@ export default interface IEntity{
 
     activeEffects?:IEffect[];
 
-    takeDmg(amt:number):number|void;
+    takePhysDmg(amt:number):number|void;
+    takeMagicDmg(amt:number):number|void;
     healHP(amt:number):number|void;
     useMana?(amt:number):number|void;
     healMana?(amt:number):number|void;
