@@ -6,4 +6,5 @@ export default interface IDungeon extends IGameLocation {
     levels:IDungeonLevel[]
     goldReward?:number
     itemReward?:IItem
+    completed?:boolean
 }
