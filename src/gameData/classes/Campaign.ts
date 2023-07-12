@@ -16,13 +16,11 @@ export class GameLocationConnections implements IGameLocationConnections{
 }
 
 export default class Campaign implements ICampaign{
-    private _flag:number
     constructor(
         private _completionFlag:number,
         private _locations:GameLocationConnections[]=[],
-    ){
-        this._flag=0
-    }
+        private _flag:number=0
+    ){}
 
     public get locations(){
         return this._locations
