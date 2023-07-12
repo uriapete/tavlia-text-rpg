@@ -34,9 +34,9 @@ export default interface IPlayerChar extends IEntity{
     name?:string;
     bio?:string;
 
-    level:number;
-    xp:number;
-    xpToNextLv:number;
+    level?:number;
+    xp?:number;
+    xpToNextLv?:number;
 
-    playerClass:IPlayerClass;
+    playerClass?:IPlayerClass;
 }
