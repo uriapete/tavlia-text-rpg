@@ -86,6 +86,10 @@ export default abstract class Entity implements IEntity {
         return this._magicSkills
     }
 
+    public isDead(): boolean {
+        return this.currHP<=0
+    }
+
     public takePhysDmg(amt: number): number {
         let dmg = amt - this.physDef
         if (dmg<1){
