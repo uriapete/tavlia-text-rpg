@@ -144,4 +144,8 @@ export default abstract class Entity implements IEntity {
         this.currMana+=healAmt
         return healAmt
     }
+
+    useBasicSkill(target:Entity): boolean|DmgReturn {
+        return this.basicSkill.use(this,target)
+    }
 }
