@@ -7,10 +7,12 @@ function App() {
   return (
     <div className="App">
       <h1 className="title">Tavlia</h1>
-      <Routes>
-        <Route path='' element={Home()} />
-        <Route path='game' element={Game()} />
-      </Routes>
+      <main className="App-main">
+        <Routes>
+          <Route path='' element={Home()} />
+          <Route path='game' element={Game()} />
+        </Routes>
+      </main>
     </div>
   );
 }
