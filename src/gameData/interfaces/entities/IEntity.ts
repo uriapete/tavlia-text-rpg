@@ -61,4 +61,7 @@ export default interface IEntity{
     useMana(amt:number):number|boolean;
     healMana(amt:number):number|void;
     isDead():boolean;
+    useBasicSkill(target:IEntity):boolean|DmgReturn
+    usePhysSkill?(skill:IPhysicalAttack,target:IEntity):boolean
+    useMagicSkill?(skill:IMagicalAttack,target:IEntity):boolean
 }
