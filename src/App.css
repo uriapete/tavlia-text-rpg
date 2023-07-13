@@ -5,4 +5,12 @@ body{
 
 .App {
   text-align: center;
+  display: flex;
+  align-items: center;
+  flex-flow: column nowrap;
+}
+
+main.App-main{
+  width: 75vw;
+  min-width: 95vw;
 }
