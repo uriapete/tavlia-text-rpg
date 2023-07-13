@@ -1,6 +1,7 @@
 import IEntity from "../../interfaces/entities/IEntity";
 import IBeneficialSkill from "../../interfaces/skills/IBeneficialSkill";
 import ISkill from "../../interfaces/skills/ISkill";
+import Entity from "../entities/Entity";
 import Skill from "./Skill";
 
 export default class BeneficialSkill extends Skill implements IBeneficialSkill,ISkill{
@@ -17,7 +18,7 @@ export default class BeneficialSkill extends Skill implements IBeneficialSkill,I
         return this._manaCost
     }
 
-    public effect(user:IEntity,target=user):boolean{
+    public use(user:Entity,target=user):boolean{
         if(user.useMana(this.manaCost)===false){
             return false
         }

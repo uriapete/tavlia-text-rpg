@@ -11,7 +11,7 @@ export default class PhysicalAttack extends Skill implements IPhysicalAttack,ISk
     ){
         super(name,bio)
     }
-    public attack(user:Entity,target:Entity){
+    public use(user:Entity,target:Entity){
         return target.takePhysDmg(user.physAtt*this.power)
     }
 }
