@@ -1,4 +1,4 @@
-import IEntity from "../../interfaces/entities/IEntity";
+import IEntity, { DmgReturn } from "../../interfaces/entities/IEntity";
 import MagicalAttack from "../skills/MagicalAttack";
 import PhysicalAttack from "../skills/PhysicalAttack";
 import Skill from "../skills/Skill";
@@ -90,21 +90,27 @@ export default abstract class Entity implements IEntity {
         return this.currHP<=0
     }
 
-    public takePhysDmg(amt: number): number {
+    public takePhysDmg(amt: number): DmgReturn {
         let dmg = amt - this.physDef
         if (dmg<1){
             dmg=1
         }
         this.currHP-=dmg;
-        return dmg;
+        return {
+            dmg,
+            killed:this.isDead()
+        };
     }
-    public takeMagicDmg(amt: number): number {
+    public takeMagicDmg(amt: number): DmgReturn {
         let dmg = amt - this.magicDef
         if (dmg<1){
             dmg=1
         }
         this.currHP-=dmg;
-        return dmg;
+        return {
+            dmg,
+            killed:this.isDead()
+        };
     }
 
     public healHP(amt: number): number {
