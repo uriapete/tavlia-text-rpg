@@ -1,5 +1,6 @@
 import { ReactElement, useState } from "react";
 import './styles/Game.scss'
+import baseCampaign from "../gameData/mainCampaignData";
 
 export default function Game():ReactElement{
     const [GameTextWindow, setGameTextWindow] = useState<ReactElement[]>(
