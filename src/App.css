@@ -13,4 +13,7 @@ body{
 main.App-main{
   width: 75vw;
   min-width: 95vw;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 }
