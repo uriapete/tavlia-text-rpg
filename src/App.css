@@ -6,8 +6,8 @@ body{
 .App {
   text-align: center;
   display: flex;
-  align-items: center;
   flex-flow: column nowrap;
+  align-items: center;
 }
 
 main.App-main{
