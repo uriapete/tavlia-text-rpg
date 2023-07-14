@@ -2,12 +2,12 @@
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  width: 100%;
+  width: 70%;
 }
 
 .game-text-window{
     height: 50vh;
-    width: 70%;
+    width: 100%;
     max-width: 95vw;
     overflow-y: scroll;
     text-align: left;
@@ -22,7 +22,7 @@
 }
 
 @media (max-width:800px){
-    .game-text-window{
+    .page-game{
         width: 95%;
     }
 }
