@@ -21,6 +21,13 @@
     }
 }
 
+.game-info-panels{
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+}
+
 @media (max-width:800px){
     .page-game{
         width: 95%;
