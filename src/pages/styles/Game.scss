@@ -25,6 +25,18 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: flex-start;
+    margin-top: 3vh;
+}
+
+.player-stats{
+    background-color: rgb(0, 0, 171);
+    color: white;
+    border: 5px solid white;
+    border-radius: 5px;
+    text-align: left;
+    width: 30%;
+    height: 25vh;
+    padding: 1vh 1vw;
 }
 
 @media (max-width:800px){
