@@ -3,7 +3,7 @@ import IGameLocation from "./locations/IGameLocation";
 
 export interface IGameLocationConnections{
     location:IGameLocation
-    connections:IGameLocation[]
+    connections:IGameLocation[]|IGameLocationConnections[]
 }
 
 export default interface ICampaign{
