@@ -41,12 +41,17 @@ const finDunL3=new DungeonLevel([darkGob,bigDarkGob])
 
 const finDungeon=new Dungeon("Dungeon of Darkness",[finDunL1,finDunL2,finDunL3])
 
-const starterTownConns = new GameLocationConnections(starterTown,[firstField])
-const firstFieldConns= new GameLocationConnections(firstField,[starterTown,firstDungeon,secondField])
-const firstDungeonConns= new GameLocationConnections(firstDungeon,[firstField])
-const secondFieldConns= new GameLocationConnections(secondField,[firstField,finDungeon])
-const finDungeonConns= new GameLocationConnections(finDungeon,[secondField])
+const starterTownConns = new GameLocationConnections(starterTown)
+const firstFieldConns= new GameLocationConnections(firstField)
+const firstDungeonConns= new GameLocationConnections(firstDungeon)
+const secondFieldConns= new GameLocationConnections(secondField)
+const finDungeonConns= new GameLocationConnections(finDungeon)
 
+starterTownConns.addConnections(firstFieldConns)
+firstFieldConns.addConnections(starterTownConns,firstDungeonConns,secondFieldConns)
+firstDungeonConns.addConnections(firstFieldConns)
+secondFieldConns.addConnections(firstFieldConns,finDungeonConns)
+finDungeonConns.addConnections(secondFieldConns)
 const baseCampaignPlayerChar=new PlayerChar(70,0,5,5,0,0,5,basicBash)
 
 const baseCampaign=new Campaign(baseCampaignPlayerChar,2,[starterTownConns,firstFieldConns,firstDungeonConns,secondFieldConns,finDungeonConns])
