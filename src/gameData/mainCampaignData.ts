@@ -49,6 +49,6 @@ const finDungeonConns= new GameLocationConnections(finDungeon,[secondField])
 
 const baseCampaignPlayerChar=new PlayerChar(70,0,5,5,0,0,5,basicBash)
 
-const baseCampaign=new Campaign(baseCampaignPlayerChar,2,[starterTown,firstField,firstDungeon,secondField,finDungeon],[starterTownConns,firstFieldConns,firstDungeonConns,secondFieldConns,finDungeonConns])
+const baseCampaign=new Campaign(baseCampaignPlayerChar,2,[starterTownConns,firstFieldConns,firstDungeonConns,secondFieldConns,finDungeonConns])
 
 export default baseCampaign
