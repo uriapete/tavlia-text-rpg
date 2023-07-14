@@ -1,0 +1,23 @@
+.page-game{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.game-text-window{
+    height: 50vh;
+    width: 60%;
+    max-width: 95vw;
+    overflow: auto;
+    text-align: left;
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    padding: 1.25vh 1vw;
+}
+
+@media (max-width:800px){
+    .game-text-window{
+        width: 95%;
+    }
+}
