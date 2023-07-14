@@ -91,6 +91,13 @@ export default abstract class Entity implements IEntity {
     }
 
     public takePhysDmg(amt: number): DmgReturn {
+        const alreadyDead=this.isDead()
+        if(alreadyDead){
+            return{
+                dmg:0,
+                killed:alreadyDead
+            }
+        }
         let dmg = amt - this.physDef
         if (dmg<1){
             dmg=1
@@ -102,6 +109,13 @@ export default abstract class Entity implements IEntity {
         };
     }
     public takeMagicDmg(amt: number): DmgReturn {
+        const alreadyDead=this.isDead()
+        if(alreadyDead){
+            return{
+                dmg:0,
+                killed:alreadyDead
+            }
+        }
         let dmg = amt - this.magicDef
         if (dmg<1){
             dmg=1
