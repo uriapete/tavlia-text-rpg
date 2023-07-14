@@ -5,7 +5,7 @@ import PlayerChar from "./entities/PlayerChar";
 export class GameLocationConnections implements IGameLocationConnections{
     constructor(
         private _location:GameLocation,
-        private _connections:GameLocation[]
+        private _connections:GameLocationConnections[]=[]
     ){}
 
     public get location(){
@@ -14,6 +14,14 @@ export class GameLocationConnections implements IGameLocationConnections{
 
     public get connections(){
         return this._connections
+    }
+
+    public set connections(newConns:GameLocationConnections[]){
+        this._connections=newConns
+    }
+
+    public addConnections(...newConns:GameLocationConnections[]){
+        this._connections.push(...newConns)
     }
 }
 
