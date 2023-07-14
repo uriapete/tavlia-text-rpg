@@ -15,4 +15,8 @@ export default class Dungeon extends GameLocation implements IGameLocation,IDung
     get levels(){
         return this._levels
     }
+
+    get cleared(){
+        return this.levels[-1].cleared
+    }
 }
