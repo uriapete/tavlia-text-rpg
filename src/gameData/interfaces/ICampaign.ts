@@ -2,8 +2,8 @@ import PlayerChar from "../classes/entities/PlayerChar";
 import IGameLocation from "./locations/IGameLocation";
 
 export enum AccessFlagTypes {
-    visited = "visited",
-    cleared = "cleared",
+    Visited = "VISITED",
+    Cleared = "CLEARED",
 }
 
 export interface IAccessFlag {
