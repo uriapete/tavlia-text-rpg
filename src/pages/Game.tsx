@@ -95,7 +95,6 @@ export default function Game():ReactElement{
             nextFnParams=[walkingThruField-1]
         }
         const rngEncount=Math.random()
-        console.log(rngEncount,currLocInfo.battleChance)
         if(rngEncount<currLocInfo.battleChance){
             startBattle(...currLocInfo.enemies)
         }else{
@@ -197,6 +196,28 @@ export default function Game():ReactElement{
         )
     }
 
+    function BattleChoices():ReactElement{
+        
+        return(
+            <div className="battle-choices">
+                <button>{playerChar.basicSkill.name}</button>
+                {
+                    playerChar.physSkills.length>0?
+                        <button>Attack</button>
+                        :
+                        <></>
+                }
+                {
+                    playerChar.magicSkills.length>0?
+                        <button>Magic</button>
+                        :
+                        <></>
+                }
+                <button>Run</button>
+            </div>
+        )
+    }
+
     return(
         <div className="page page-game">
             <div className="game game-text-window">
@@ -215,6 +236,7 @@ export default function Game():ReactElement{
                     :
                         (
                             <div className="battle-menu">
+                                <BattleChoices />
                                 <EnemyStats />
                             </div>
                         )
