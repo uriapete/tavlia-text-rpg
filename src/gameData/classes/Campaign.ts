@@ -30,7 +30,6 @@ export default class Campaign implements ICampaign{
         private _playerChar:PlayerChar,
         private _completionFlag:number,
         private _locations:GameLocationConnections[]=[],
-        // private _connections:GameLocationConnections[]=[],
         private _flag:number=0
     ){}
 
