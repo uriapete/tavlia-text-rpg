@@ -22,12 +22,7 @@ export default class DungeonLevel extends GameLocation implements IDungeonLevel,
         return this._cleared
     }
 
-    public toggleCleared(){
-        this._cleared=!this._cleared
-        return this._cleared
-    }
-
-    public set cleared(bool:boolean){
-        this._cleared=bool
+    public clear(){
+        this._cleared=true
     }
 }
