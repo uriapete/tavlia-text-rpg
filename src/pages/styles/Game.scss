@@ -25,6 +25,9 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
+    > *{
+        margin: 0 1vw;
+    }
     margin-top: 3vh;
 }
 
