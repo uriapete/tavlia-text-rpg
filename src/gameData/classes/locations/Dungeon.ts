@@ -4,7 +4,6 @@ import DungeonLevel from "./DungeonLevel";
 import GameLocation from "./GameLocation";
 
 export default class Dungeon extends GameLocation implements IGameLocation,IDungeon{
-    public completed=false;
     constructor(
         name:string,
         private _levels:DungeonLevel[]=[],
@@ -22,5 +21,5 @@ export default class Dungeon extends GameLocation implements IGameLocation,IDung
 }
 
 export function isDungeon(loc:GameLocation):loc is Dungeon{
-    return "levels" in Dungeon
+    return "levels" in loc
 }
