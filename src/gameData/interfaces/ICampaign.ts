@@ -16,6 +16,7 @@ export interface IGameLocationConnections{
     visited:boolean
     cleared?:boolean
     connections:IGameLocation[]|IGameLocationConnections[]
+    accessFlag?:IAccessFlag
 }
 
 export default interface ICampaign{
