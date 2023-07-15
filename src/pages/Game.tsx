@@ -5,6 +5,7 @@ import { GameLocationConnections } from "../gameData/classes/Campaign";
 import { isField } from "../gameData/classes/locations/Field";
 import { isTown } from "../gameData/classes/locations/Town";
 import { isDungeon } from "../gameData/classes/locations/Dungeon";
+import { AccessFlagTypes } from "../gameData/interfaces/ICampaign";
 
 export default function Game():ReactElement{
     const [GameTextWindow, setGameTextWindow] = useState<ReactElement[]>([
@@ -30,6 +31,7 @@ export default function Game():ReactElement{
         setWalkingThruField(0)
         setEnteredFrom(currLoc)
         setCurrLoc(newLoc)
+        newLoc.visit()
         setGameTextWindow([
             <p key={0}>You've arrived in {newLoc.location.name}.</p>,
             <p key={1}>What will you do now?</p>
@@ -72,8 +74,24 @@ export default function Game():ReactElement{
                 {
                     currLocConns.map(
                         (locConn,idx) => {
-                            const { location } = locConn
+                            const { location,accessFlag } = locConn
                             const { name } = location
+
+                            if(typeof accessFlag!=="undefined"){
+                                const {type}=accessFlag
+                                const flagLoc=accessFlag.location
+                                switch (type) {
+                                    case AccessFlagTypes.Visited:
+                                        if(!flagLoc.visited){
+                                            return<></>
+                                        }
+                                        break;
+                                
+                                    default:
+                                        break;
+                                }
+                            }
+
                             let locClassName:string=" "
                             if(isTown(location)){
                                 locClassName+="to-town "
