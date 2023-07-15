@@ -71,9 +71,8 @@ export class GameLocationConnections implements IGameLocationConnections{
 export default class Campaign implements ICampaign{
     constructor(
         private _playerChar:PlayerChar,
-        private _completionFlag:number,
-        private _locations:GameLocationConnections[]=[],
-        private _flag:number=0
+        private _completionFlag:AccessFlag,
+        private _locations:GameLocationConnections[]=[]
     ){}
 
     public get playerChar(){
@@ -84,21 +83,8 @@ export default class Campaign implements ICampaign{
         return this._locations
     }
 
-    public get flag(){
-        return this._flag
-    }
-
     public get completionFlag(){
         return this._completionFlag
-    }
-
-    public iterateFlag(){
-        this._flag++
-        return this._flag>=this.completionFlag
-    }
-
-    public checkComplete(){
-        return this._flag >= this.completionFlag
     }
 
     public addLocations(...newLocs:GameLocationConnections[]){
