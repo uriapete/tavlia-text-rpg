@@ -37,7 +37,6 @@ export default function Game():ReactElement{
     const [nextLoc, setNextLoc] = useState(currLoc)
 
     function toggleFieldWalk(newDestConn:GameLocationConnections){
-        console.log("Field Walk!")
         if((isField(currLoc.location) && newDestConn!==enteredFrom)){
             setNextLoc(newDestConn)
             setWalkingThruField(currLoc.location.size)
