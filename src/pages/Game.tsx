@@ -3,6 +3,8 @@ import './styles/Game.scss'
 import baseCampaign from "../gameData/mainCampaignData";
 import { GameLocationConnections } from "../gameData/classes/Campaign";
 import { isField } from "../gameData/classes/locations/Field";
+import { isTown } from "../gameData/classes/locations/Town";
+import { isDungeon } from "../gameData/classes/locations/Dungeon";
 
 export default function Game():ReactElement{
     const [GameTextWindow, setGameTextWindow] = useState<ReactElement[]>([
@@ -72,8 +74,18 @@ export default function Game():ReactElement{
                         (locConn,idx) => {
                             const { location } = locConn
                             const { name } = location
+                            let locClassName:string=" "
+                            if(isTown(location)){
+                                locClassName+="to-town "
+                            }
+                            if(isField(location)){
+                                locClassName+="to-field "
+                            }
+                            if(isDungeon(location)){
+                                locClassName+="to-dun "
+                            }
                             return (
-                                <div className="next-loc" key={idx}>
+                                <div className={`next-loc${locClassName}`} key={idx}>
                                     <button onClick={() => {
                                         handleChangeLoc(locConn)
                                     }}>{name}</button>
