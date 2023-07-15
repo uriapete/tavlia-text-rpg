@@ -6,7 +6,7 @@ import { isDungeon } from "./locations/Dungeon";
 export class AccessFlag implements IAccessFlag {
     constructor(
         private _type: AccessFlagTypes,
-        private _location: GameLocation
+        private _location: GameLocationConnections
     ) { }
     public get type() {
         return this._type
