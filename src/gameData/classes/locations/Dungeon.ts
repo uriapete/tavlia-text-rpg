@@ -7,7 +7,7 @@ export default class Dungeon extends GameLocation implements IGameLocation,IDung
     public completed=false;
     constructor(
         name:string,
-        private _levels:DungeonLevel[],
+        private _levels:DungeonLevel[]=[],
         bio="",
     ){
         super(name,bio)
@@ -19,4 +19,8 @@ export default class Dungeon extends GameLocation implements IGameLocation,IDung
     get cleared(){
         return this.levels[-1].cleared
     }
+}
+
+export function isDungeon(loc:GameLocation):loc is Dungeon{
+    return "levels" in Dungeon
 }
