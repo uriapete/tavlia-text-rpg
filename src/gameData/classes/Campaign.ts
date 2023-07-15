@@ -1,6 +1,7 @@
 import ICampaign, { AccessFlagTypes, IAccessFlag, IGameLocationConnections } from "../interfaces/ICampaign";
 import GameLocation from "./locations/GameLocation";
 import PlayerChar from "./entities/PlayerChar";
+import { isDungeon } from "./locations/Dungeon";
 
 export class AccessFlag implements IAccessFlag {
     constructor(
@@ -32,6 +33,14 @@ export class GameLocationConnections implements IGameLocationConnections{
 
     public get accessFlag(){
         return this._accessFlag
+    }
+
+    public get cleared() {
+        if (isDungeon(this.location)) {
+            return this.location.cleared
+        } else {
+            return undefined
+        }
     }
 
     public get connections(){
