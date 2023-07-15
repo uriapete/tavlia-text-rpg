@@ -63,10 +63,6 @@ export class GameLocationConnections implements IGameLocationConnections{
         return this._connections
     }
 
-    public set connections(newConns:GameLocationConnections[]){
-        this._connections=newConns
-    }
-
     public addConnections(...newConns:GameLocationConnections[]){
         this._connections.push(...newConns)
     }
