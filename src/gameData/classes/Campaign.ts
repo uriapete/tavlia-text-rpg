@@ -20,8 +20,14 @@ export class GameLocationConnections implements IGameLocationConnections{
     constructor(
         private _location:GameLocation,
         private _connections:GameLocationConnections[]=[],
-        private _accessFlag?:AccessFlag
-    ){}
+        accessFlagType?:AccessFlagTypes,
+        accessFlagLoc?:GameLocationConnections,
+        private _accessFlag?:AccessFlag,
+    ){
+        if(typeof this._accessFlag==="undefined"&&(typeof accessFlagType!=="undefined"&&typeof accessFlagLoc!=="undefined")){
+            this._accessFlag=new AccessFlag(accessFlagType,accessFlagLoc)
+        }
+    }
 
     public get location(){
         return this._location
@@ -37,6 +43,12 @@ export class GameLocationConnections implements IGameLocationConnections{
 
     public get accessFlag(){
         return this._accessFlag
+    }
+
+    public set accessFlag(newFlag){
+        if(typeof this.accessFlag==="undefined"&&typeof newFlag!=="undefined"){
+            this._accessFlag=newFlag
+        }
     }
 
     public get cleared() {
