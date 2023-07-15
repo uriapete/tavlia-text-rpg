@@ -124,6 +124,18 @@
     }
 }
 
+.selecting-enemy-target{
+    border-color: yellow;
+    &:hover{
+        border-style: dashed;
+    }
+    &:active{
+        box-shadow:
+            inset 3px 3px 10px -1px rgba($color: #000000, $alpha: .6),
+            inset -4px -3px 3px 1px rgba($color: rgb(104, 104, 251), $alpha: .3);
+    }
+}
+
 .battle-choices{
     grid-column: span 1;
     display: grid;
