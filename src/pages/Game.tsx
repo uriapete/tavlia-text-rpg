@@ -6,6 +6,7 @@ import { isField } from "../gameData/classes/locations/Field";
 import { isTown } from "../gameData/classes/locations/Town";
 import { isDungeon } from "../gameData/classes/locations/Dungeon";
 import { AccessFlagTypes } from "../gameData/interfaces/ICampaign";
+import Enemy from "../gameData/classes/entities/Enemy";
 
 export default function Game():ReactElement{
     const [GameTextWindow, setGameTextWindow] = useState<ReactElement[]>([
@@ -21,11 +22,28 @@ export default function Game():ReactElement{
 
     const [enteredFrom, setEnteredFrom] = useState<GameLocationConnections>(locations[0])
     
-    const [playerhp, setPlayerhp] = useState(playerChar.currHP)
+    const [playerHpVisible, setPlayerHpVisible] = useState(playerChar.currHP)
     
     const [inBattle, setInBattle] = useState<boolean>(false)
 
+    // const enemiesInPlay:Enemy[]=[]
+
+    const [enemiesInPlay, setEnemiesInPlay] = useState<Enemy[]>([])
+
     const [walkingThruField, setWalkingThruField] = useState<number>(0)
+
+    let nextFn: Function|null, nextFnParams: any[]
+
+    function callNextFn(){
+        if(nextFn==null){
+            nextFnParams=[]
+            return null
+        }
+        const val = nextFn(...nextFnParams)
+        nextFn=null
+        nextFnParams=[]
+        return val
+    }
 
     function changeLoc(newLoc:GameLocationConnections){
         setWalkingThruField(0)
@@ -36,6 +54,18 @@ export default function Game():ReactElement{
             <p key={0}>You've arrived in {newLoc.location.name}.</p>,
             <p key={1}>What will you do now?</p>
         ])
+    }
+
+    function startBattle(...newEnemies:Enemy[]){
+        if(newEnemies.length<=0){
+            return null
+        }
+        setGameTextWindow([
+            <p key={0}>You've encountered {newEnemies[0].name}!</p>,
+            <p key={1}>What will you do?</p>
+        ])
+        setInBattle(true)
+        setEnemiesInPlay(newEnemies)
     }
 
     const [nextLoc, setNextLoc] = useState(currLoc)
@@ -51,10 +81,25 @@ export default function Game():ReactElement{
     }
 
     function continueFieldWalk(){
+        const currLocInfo=currLoc.location
+        if(!isField(currLocInfo)){
+            nextFn=null
+            nextFnParams=[]
+            return changeLoc(nextLoc)
+        }
         if(walkingThruField<=1){
-            changeLoc(nextLoc)
+            nextFn=changeLoc
+            nextFnParams=[nextLoc]
         }else{
-            setWalkingThruField(walkingThruField-1)
+            nextFn=setWalkingThruField
+            nextFnParams=[walkingThruField-1]
+        }
+        const rngEncount=Math.random()
+        console.log(rngEncount,currLocInfo.battleChance)
+        if(rngEncount<currLocInfo.battleChance){
+            startBattle(...currLocInfo.enemies)
+        }else{
+            callNextFn()
         }
     }
 
@@ -135,6 +180,23 @@ export default function Game():ReactElement{
         )
     }
 
+    function EnemyStats():ReactElement{
+        return(
+            <div className="enemy-stats">
+                {
+                    enemiesInPlay.map((enemy,idx)=>{
+                        return(
+                            <div key={idx} className="enemy-stat">
+                                <h2>{enemy.name}</h2>
+                                <p>HP: {enemy.currHP}/{enemy.maxHP}</p>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        )
+    }
+
     return(
         <div className="page page-game">
             <div className="game game-text-window">
@@ -143,7 +205,7 @@ export default function Game():ReactElement{
             <div className="game game-info-panels">
                 <div className="game player-stats">
                     <h2>You</h2>
-                    <p>HP: {playerhp}/{playerChar.maxHP}</p>
+                    <p>HP: {playerHpVisible}/{playerChar.maxHP}</p>
                 </div>
                 {
                     !inBattle?
@@ -152,7 +214,9 @@ export default function Game():ReactElement{
                     )
                     :
                         (
-                            <></>
+                            <div className="battle-menu">
+                                <EnemyStats />
+                            </div>
                         )
                 }
             </div>
