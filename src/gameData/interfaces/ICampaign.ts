@@ -22,6 +22,6 @@ export interface IGameLocationConnections{
 export default interface ICampaign{
     playerChar:PlayerChar
     locations: IGameLocation[] | IGameLocationConnections[]
-    flag:number
-    completionFlag:number
+    flag?:number
+    completionFlag:IAccessFlag
 }
