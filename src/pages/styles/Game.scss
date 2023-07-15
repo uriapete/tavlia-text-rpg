@@ -95,12 +95,15 @@
 
 .battle-menu{
     grid-column: span 1;
+    display: grid;
+    grid-template-columns: auto auto;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
 }
 
 .enemy-stats{
+    grid-column: span 1;
     display: flex;
     flex-flow: row nowrap;
     margin: 0;
@@ -120,6 +123,12 @@
             margin: 0;
         }
     }
+}
+
+.battle-choices{
+    grid-column: span 1;
+    display: flex;
+    flex-flow: column nowrap;
 }
 
 @media (max-width:800px){
