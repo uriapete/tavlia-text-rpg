@@ -14,3 +14,7 @@ export default class Field extends GameLocation implements IGameLocation,IField 
         super(name,bio)
     }
 }
+
+export function isField(loc:GameLocation):loc is Field{
+    return "size" in loc
+}
