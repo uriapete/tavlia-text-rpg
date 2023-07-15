@@ -93,6 +93,35 @@
         }
 }
 
+.battle-menu{
+    grid-column: span 1;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.enemy-stats{
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 0;
+    margin-left: auto;
+    .enemy-stat{
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-evenly;
+        align-items: stretch;
+        background-color: rgb(0, 0, 171);
+        color: white;
+        border: 5px solid white;
+        border-radius: 5px;
+        text-align: left;
+        padding: .5vh .5vw;
+        *{
+            margin: 0;
+        }
+    }
+}
+
 @media (max-width:800px){
     .page-game{
         width: 95%;
