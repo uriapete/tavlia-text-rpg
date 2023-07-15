@@ -1,15 +1,37 @@
-import ICampaign, { IGameLocationConnections } from "../interfaces/ICampaign";
+import ICampaign, { AccessFlagTypes, IAccessFlag, IGameLocationConnections } from "../interfaces/ICampaign";
 import GameLocation from "./locations/GameLocation";
 import PlayerChar from "./entities/PlayerChar";
+
+export class AccessFlag implements IAccessFlag {
+    constructor(
+        private _type: AccessFlagTypes,
+        private _location: GameLocation
+    ) { }
+    public get type() {
+        return this._type
+    }
+    public get location() {
+        return this._location
+    }
+}
 
 export class GameLocationConnections implements IGameLocationConnections{
     constructor(
         private _location:GameLocation,
-        private _connections:GameLocationConnections[]=[]
+        private _connections:GameLocationConnections[]=[],
+        private _accessFlag?:AccessFlag
     ){}
 
     public get location(){
         return this._location
+    }
+
+    public get visited(){
+        return this._location.visited
+    }
+
+    public get accessFlag(){
+        return this._accessFlag
     }
 
     public get connections(){

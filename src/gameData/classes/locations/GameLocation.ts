@@ -1,24 +1,10 @@
-import IGameLocation, { AccessFlagTypes, IAccessFlag } from "../../interfaces/locations/IGameLocation";
-
-export class AccessFlag implements IAccessFlag{
-    constructor(
-        private _type:AccessFlagTypes,
-        private _location:GameLocation
-    ){}
-    public get type(){
-        return this._type
-    }
-    public get location(){
-        return this._location
-    }
-}
+import IGameLocation from "../../interfaces/locations/IGameLocation"
 
 export default abstract class GameLocation implements IGameLocation{
     private _visited:boolean
     constructor(
         private _name:string,
         private _bio:string="",
-        private _accessFlag?:AccessFlag
     ){
         this._visited=false
     }
@@ -35,7 +21,7 @@ export default abstract class GameLocation implements IGameLocation{
         return this._visited
     }
 
-    get accessFlag(){
-        return this._accessFlag
+    public visit(){
+        this._visited=true
     }
 }
