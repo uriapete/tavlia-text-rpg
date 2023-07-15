@@ -31,6 +31,10 @@ export class GameLocationConnections implements IGameLocationConnections{
         return this._location.visited
     }
 
+    public visit(){
+        this._location.visit()
+    }
+
     public get accessFlag(){
         return this._accessFlag
     }
