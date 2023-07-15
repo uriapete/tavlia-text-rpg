@@ -201,20 +201,20 @@ export default function Game():ReactElement{
         return(
             <div className="battle-choices">
                 <div className="battle-main-menu">
-                    <button>{playerChar.basicSkill.name}</button>
+                    <button><h3>{playerChar.basicSkill.name}</h3></button>
                     {
                         playerChar.physSkills.length>0?
-                            <button>Attack</button>
+                            <button><h3>Attack</h3></button>
                             :
-                            <></>
+                            <button disabled><h3>Attack</h3></button>
                     }
                     {
                         playerChar.magicSkills.length>0?
-                            <button>Magic</button>
+                            <button><h3>Magic</h3></button>
                             :
-                            <></>
+                            <button disabled><h3>Magic</h3></button>
                     }
-                    <button>Run</button>
+                    <button><h3>Run</h3></button>
                 </div>
             </div>
         )
