@@ -43,6 +43,12 @@
     margin-left: 0;
 }
 
+.next-loc-btns{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+}
+
 @media (max-width:800px){
     .page-game{
         width: 95%;
