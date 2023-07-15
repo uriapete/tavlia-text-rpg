@@ -8,7 +8,7 @@ export enum AccessFlagTypes {
 
 export interface IAccessFlag {
     type: AccessFlagTypes,
-    location: IGameLocation,
+    location: IGameLocation|IGameLocationConnections,
 }
 
 export interface IGameLocationConnections{
