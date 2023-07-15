@@ -24,7 +24,7 @@
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    align-items: flex-start;
+    justify-content: flex-start;
     margin-top: 3vh;
 }
 
@@ -41,6 +41,13 @@
 
 @media (max-width:800px){
     .page-game{
+        width: 95%;
+    }
+    .game-info-panels{
+        flex-flow: column nowrap;
+        align-items: center;
+    }
+    .player-stats{
         width: 95%;
     }
 }
