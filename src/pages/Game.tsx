@@ -6,8 +6,8 @@ import { isField } from "../gameData/classes/locations/Field";
 
 export default function Game():ReactElement{
     const [GameTextWindow, setGameTextWindow] = useState<ReactElement[]>([
-        <p>You begin in {baseCampaign.locations[0].location.name}.</p>,
-        <p>What do you do?</p>
+        <p key={0}>You begin in {baseCampaign.locations[0].location.name}.</p>,
+        <p key={1}>What do you do?</p>
     ])
 
     const {playerChar,locations} = baseCampaign
@@ -29,8 +29,8 @@ export default function Game():ReactElement{
         setEnteredFrom(currLoc)
         setCurrLoc(newLoc)
         setGameTextWindow([
-            <p>You've arrived in {newLoc.location.name}.</p>,
-            <p>What will you do now?</p>
+            <p key={0}>You've arrived in {newLoc.location.name}.</p>,
+            <p key={1}>What will you do now?</p>
         ])
     }
 
@@ -69,11 +69,11 @@ export default function Game():ReactElement{
                 <h3>Go to:</h3>
                 {
                     currLocConns.map(
-                        (locConn) => {
+                        (locConn,idx) => {
                             const { location } = locConn
                             const { name } = location
                             return (
-                                <div className="next-loc">
+                                <div className="next-loc" key={idx}>
                                     <button onClick={() => {
                                         handleChangeLoc(locConn)
                                     }}>{name}</button>
