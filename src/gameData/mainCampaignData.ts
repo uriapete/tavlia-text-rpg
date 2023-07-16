@@ -1,4 +1,4 @@
-import Campaign, { GameLocationConnections } from "./classes/Campaign"
+import Campaign, { AccessFlag, GameLocationConnections } from "./classes/Campaign"
 import Enemy from "./classes/entities/Enemy"
 import PlayerChar from "./classes/entities/PlayerChar"
 import Dungeon from "./classes/locations/Dungeon"
@@ -6,6 +6,7 @@ import DungeonLevel from "./classes/locations/DungeonLevel"
 import Field from "./classes/locations/Field"
 import Town from "./classes/locations/Town"
 import PhysicalAttack from "./classes/skills/PhysicalAttack"
+import { AccessFlagTypes } from "./interfaces/ICampaign"
 
 const starterTown = new Town("Little Town");
 
@@ -52,8 +53,13 @@ firstFieldConns.addConnections(starterTownConns,firstDungeonConns,secondFieldCon
 firstDungeonConns.addConnections(firstFieldConns)
 secondFieldConns.addConnections(firstFieldConns,finDungeonConns)
 finDungeonConns.addConnections(secondFieldConns)
+
+secondFieldConns.accessFlag=new AccessFlag(AccessFlagTypes.Visited,firstDungeonConns)
+
+const completionFlag=new AccessFlag(AccessFlagTypes.Cleared,finDungeonConns)
+
 const baseCampaignPlayerChar=new PlayerChar(70,0,5,5,0,0,5,basicBash)
 
-const baseCampaign=new Campaign(baseCampaignPlayerChar,2,[starterTownConns,firstFieldConns,firstDungeonConns,secondFieldConns,finDungeonConns])
+const baseCampaign=new Campaign(baseCampaignPlayerChar,completionFlag,[starterTownConns,firstFieldConns,firstDungeonConns,secondFieldConns,finDungeonConns])
 
 export default baseCampaign
