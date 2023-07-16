@@ -1,3 +1,19 @@
+body{
+  background-color: rgb(57, 0, 81);
+  color: white;
+}
+
 .App {
   text-align: center;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+main.App-main{
+  width: 75vw;
+  max-width: 95vw;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 }
