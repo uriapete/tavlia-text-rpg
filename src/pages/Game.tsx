@@ -11,6 +11,7 @@ import Skill from "../gameData/classes/skills/Skill";
 import PhysicalAttack from "../gameData/classes/skills/PhysicalAttack";
 import Entity from "../gameData/classes/entities/Entity";
 import { DmgReturn } from "../gameData/interfaces/entities/IEntity";
+import DungeonLevel from "../gameData/classes/locations/DungeonLevel";
 
 export default function Game():ReactElement{
     const [GameTextWindow, setGameTextWindow] = useState<ReactElement[]>([
@@ -251,7 +252,13 @@ export default function Game():ReactElement{
     // }
 
     function playerRunAway(){
-        if(Math.random()>.65){
+        if(currLoc.location instanceof DungeonLevel){
+            addToGameTextWindow(
+                <p>Can't run away from a Dungeon Battle!</p>
+            )
+            return false
+        }
+        if(Math.random()<.50){
             setInBattle(false)
             setEnemiesInPlay([])
             callNextFn()
