@@ -254,7 +254,7 @@ export default function Game():ReactElement{
     function playerRunAway(){
         if(currLoc.location instanceof DungeonLevel){
             addToGameTextWindow(
-                <p>Can't run away from a Dungeon Battle!</p>
+                <p>Can't run away from a dungeon battle!</p>
             )
             return false
         }
