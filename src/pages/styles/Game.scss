@@ -42,55 +42,63 @@
     margin-left: 0;
 }
 
-.next-loc-btns{
+.out-of-battle-choices{
     grid-column: span 1;
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-start;
-    button{
-        border-radius: 5px;
-        border: none;
-        margin: .25vh 0;
-        padding: .5vh .5vw;
-        color: white;
-        text-shadow: #000000 1px 1px 3px;
-        box-shadow: inset 2px 2px 3px -1px rgba($color: #ffffff, $alpha: .6), inset -2px -1px 2px 1px rgba($color: #000000, $alpha: .6);
-        &:active{
-            box-shadow: inset 2px 2px 3px -1px rgba($color: #000000, $alpha: .6), inset -2px -1px 2px 1px rgba($color: #ffffff, $alpha: .6);
+    .next-loc-btns{
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: flex-start;
+        h3{
+            margin: .5vh 0;
         }
-    }
-    .to-town button{
-        background-color: skyblue;
-        &:hover{
-            background-color: rgb(170, 230, 253);
+        button{
+            border-radius: 5px;
+            border: none;
+            margin: .25vh 0;
+            padding: .5vh .5vw;
+            color: white;
+            text-shadow: #000000 1px 1px 3px;
+            box-shadow: inset 2px 2px 3px -1px rgba($color: #ffffff, $alpha: .6), inset -2px -1px 2px 1px rgba($color: #000000, $alpha: .6);
+            &:active{
+                box-shadow: inset 2px 2px 3px -1px rgba($color: #000000, $alpha: .6), inset -2px -1px 2px 1px rgba($color: #ffffff, $alpha: .6);
+            }
         }
-    }
-    .to-field button{
-        background-color: wheat;
-        &:hover{
-            background-color: rgb(255, 238, 205);
+        .to-town button{
+            background-color: skyblue;
+            &:hover{
+                background-color: rgb(170, 230, 253);
+            }
         }
-    }
-    .to-dun button{
-        background-color: rgb(121, 121, 121);
-        color: rgb(255, 0, 0);
-        text-shadow: #310000 1px 1px 3px;
-        box-shadow:
-            inset 3px 3px 10px -1px
-                rgba($color: #646464, $alpha: .3),
-            inset -4px -3px 3px 1px
-                rgba($color: #000000, $alpha: .6);
-        &:hover{
-            background-color: rgb(146, 146, 146);
+        .to-field button{
+            background-color: wheat;
+            &:hover{
+                background-color: rgb(255, 238, 205);
+            }
         }
-        &:active{
+        .to-dun button{
+            background-color: rgb(121, 121, 121);
+            color: rgb(255, 0, 0);
+            text-shadow: #310000 1px 1px 3px;
             box-shadow:
-                    inset 3px 3px 10px -1px
-                        rgba($color: #000000, $alpha: .6),
-                    inset -4px -3px 3px 1px
-                        rgba($color: #646464, $alpha: .3);
-                }
+                inset 3px 3px 10px -1px
+                    rgba($color: #646464, $alpha: .3),
+                inset -4px -3px 3px 1px
+                    rgba($color: #000000, $alpha: .6);
+            &:hover{
+                background-color: rgb(146, 146, 146);
+            }
+            &:active{
+                box-shadow:
+                        inset 3px 3px 10px -1px
+                            rgba($color: #000000, $alpha: .6),
+                        inset -4px -3px 3px 1px
+                            rgba($color: #646464, $alpha: .3);
+            }
         }
+    }
 }
 
 .battle-menu{
