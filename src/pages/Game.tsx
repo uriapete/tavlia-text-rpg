@@ -7,12 +7,21 @@ import { isTown } from "../gameData/classes/locations/Town";
 import { isDungeon } from "../gameData/classes/locations/Dungeon";
 import { AccessFlagTypes } from "../gameData/interfaces/ICampaign";
 import Enemy from "../gameData/classes/entities/Enemy";
+import Skill from "../gameData/classes/skills/Skill";
+import PhysicalAttack from "../gameData/classes/skills/PhysicalAttack";
+import Entity from "../gameData/classes/entities/Entity";
+import { DmgReturn } from "../gameData/interfaces/entities/IEntity";
 
 export default function Game():ReactElement{
     const [GameTextWindow, setGameTextWindow] = useState<ReactElement[]>([
         <p key={0}>You begin in {baseCampaign.locations[0].location.name}.</p>,
         <p key={1}>What do you do?</p>
     ])
+
+    function addToGameTextWindow(...newText:ReactElement[]){
+        GameTextWindow.push(...newText)
+        setGameTextWindow(GameTextWindow)
+    }
 
     const {playerChar,locations} = baseCampaign
 
@@ -31,6 +40,11 @@ export default function Game():ReactElement{
     const [enemiesInPlay, setEnemiesInPlay] = useState<Enemy[]>([])
 
     const [walkingThruField, setWalkingThruField] = useState<number>(0)
+
+    function updateEntities(){
+        setPlayerHpVisible(playerChar.currHP)
+        setEnemiesInPlay(enemiesInPlay)
+    }
 
     let nextFn: Function|null, nextFnParams: any[]
 
@@ -65,7 +79,12 @@ export default function Game():ReactElement{
             <p key={1}>What will you do?</p>
         ])
         setInBattle(true)
-        setEnemiesInPlay(newEnemies)
+        let newEneArr:Enemy[]=[]
+        for (let i = 0; i < newEnemies.length; i++) {
+            const enemy = newEnemies[i];
+            newEneArr.push(Object.create(enemy))
+        }
+        setEnemiesInPlay(newEneArr)
     }
 
     const [nextLoc, setNextLoc] = useState(currLoc)
@@ -91,8 +110,9 @@ export default function Game():ReactElement{
             nextFn=changeLoc
             nextFnParams=[nextLoc]
         }else{
-            nextFn=setWalkingThruField
-            nextFnParams=[walkingThruField-1]
+            // nextFn=setWalkingThruField
+            // nextFnParams=[walkingThruField-1]
+            setWalkingThruField(walkingThruField-1)
         }
         const rngEncount=Math.random()
         if(rngEncount<currLocInfo.battleChance){
@@ -179,13 +199,147 @@ export default function Game():ReactElement{
         )
     }
 
+    const [selectingEnemy, setSelectingEnemy] = useState<Skill|null>(null)
+
+    interface IMoveTurnInfo{
+        user:Entity
+        attack?:Skill
+        speed:number
+        target?:Entity
+    }
+
+    class MoveTurnInfo implements IMoveTurnInfo{
+        public speed:number
+        constructor(
+            public user:Entity,
+            public attack?:Skill,
+            public target?:Entity,
+        ){
+            this.speed=user.speed
+        }
+    }
+
+    let attList:MoveTurnInfo[]=[]
+
+    function enemySelectMoves(){
+        for (let i = 0; i < enemiesInPlay.length; i++) {
+            const enemy = enemiesInPlay[i];
+            attList.push(new MoveTurnInfo(enemy,enemy.basicSkill,playerChar))
+        }
+    }
+
+    function handleEnemySelect(enemy:Enemy){
+        if(selectingEnemy==null){
+            return null
+        }
+        // console.log("enemy confirmed")
+        attList.push(new MoveTurnInfo(playerChar,selectingEnemy,enemy))
+        setSelectingEnemy(null)
+        enemySelectMoves()
+        playTurn()
+    }
+
+    function tryRunTurn(){
+        attList.push(new MoveTurnInfo(playerChar))
+        setSelectingEnemy(null)
+        enemySelectMoves()
+        playTurn()
+    }
+
+    // function commitTurns(playerTargetSelect:Enemy){
+    //     handleEnemySelect(playerTargetSelect)
+    //     enemySelectMoves()
+    //     playTurn()
+    // }
+
+    function playerRunAway(){
+        if(Math.random()>.65){
+            setInBattle(false)
+            setEnemiesInPlay([])
+            callNextFn()
+            return true
+        }
+        return false
+    }
+
+    function playTurn(){
+        let turnOrder:MoveTurnInfo[]=[]
+        while(attList.length>0){
+            let highestSpd=attList[0].speed
+            let highestSpdIdx=0
+            for (let i = 1; i < attList.length; i++) {
+                const move = attList[i];
+                if(move.speed>highestSpd){
+                    highestSpdIdx=i
+                    highestSpd=move.speed
+                }
+            }
+            turnOrder.push(...attList.splice(highestSpdIdx,1))
+        }
+        for (let i = 0; i < turnOrder.length; i++) {
+            const move = turnOrder[i];
+            if(typeof move.attack==="undefined"||typeof move.target==="undefined"){
+                if(move.user===playerChar){
+                    const runSucc=playerRunAway()
+                    if(!runSucc){
+                        addToGameTextWindow(
+                            <p>Failed to run away!</p>
+                        )
+                        continue;
+                    }else{
+                        addToGameTextWindow(
+                            <p>Successfully ran away!</p>
+                        )
+                        break
+                    }
+                }
+            }else{
+                if(move.user.isDead()){
+                    continue
+                }
+                addToGameTextWindow(
+                    <p>{move.user instanceof Enemy?`${move.user.name} attacks!`:"You attack!"}</p>
+                )
+                const moveRes=move.attack.use(move.user,move.target) as DmgReturn
+                addToGameTextWindow(
+                    <p>{moveRes.dmg} damage.</p>
+                )
+                if(move.target.isDead()){
+                    if(move.target instanceof Enemy){
+                        addToGameTextWindow(
+                            <p>{move.target.name} was killed!</p>
+                        )
+                    }
+                }
+                updateEntities()
+            }
+            // console.log(`turn done, playerhp ${playerChar.currHP}, enemy hp ${enemiesInPlay[0].currHP}`)
+        }
+        for (let i = 0; i < enemiesInPlay.length; i++) {
+            const enemy = enemiesInPlay[i];
+            if(enemy.isDead()){
+                enemiesInPlay.splice(i,1)
+                i--
+            }
+        }
+
+        if(enemiesInPlay.length<=0){
+            setInBattle(false)
+            playerChar.healHP(99)
+            updateEntities();
+            callNextFn()
+        }
+    }
+
     function EnemyStats():ReactElement{
         return(
             <div className="enemy-stats">
                 {
                     enemiesInPlay.map((enemy,idx)=>{
                         return(
-                            <div key={idx} className="enemy-stat">
+                            <div key={idx} onClick={()=>{
+                                handleEnemySelect(enemy)
+                            }} className={`enemy-stat ${selectingEnemy?"selecting-enemy-target":""}`}>
                                 <h2>{enemy.name}</h2>
                                 <p>HP: {enemy.currHP}/{enemy.maxHP}</p>
                             </div>
@@ -196,12 +350,21 @@ export default function Game():ReactElement{
         )
     }
 
+    function startChooseTarget(skill:Skill){
+        if(skill instanceof PhysicalAttack){
+            setSelectingEnemy(skill)
+
+        }
+    }
+
     function BattleChoices():ReactElement{
         
         return(
             <div className="battle-choices">
                 <div className="battle-main-menu">
-                    <button><h3>{playerChar.basicSkill.name}</h3></button>
+                    <button onClick={()=>{
+                        startChooseTarget(playerChar.basicSkill)
+                    }}><h3>{playerChar.basicSkill.name}</h3></button>
                     {
                         playerChar.physSkills.length>0?
                             <button><h3>Attack</h3></button>
@@ -214,7 +377,9 @@ export default function Game():ReactElement{
                             :
                             <button disabled><h3>Magic</h3></button>
                     }
-                    <button><h3>Run</h3></button>
+                    <button onClick={()=>{
+                        tryRunTurn()
+                    }}><h3>Run</h3></button>
                 </div>
             </div>
         )
