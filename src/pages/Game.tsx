@@ -4,7 +4,7 @@ import baseCampaign from "../gameData/mainCampaignData";
 import { GameLocationConnections } from "../gameData/classes/Campaign";
 import { isField } from "../gameData/classes/locations/Field";
 import { isTown } from "../gameData/classes/locations/Town";
-import { isDungeon } from "../gameData/classes/locations/Dungeon";
+import Dungeon, { isDungeon } from "../gameData/classes/locations/Dungeon";
 import { AccessFlagTypes } from "../gameData/interfaces/ICampaign";
 import Enemy from "../gameData/classes/entities/Enemy";
 import Skill from "../gameData/classes/skills/Skill";
@@ -181,6 +181,16 @@ export default function Game():ReactElement{
         )
     }
 
+    function EnterDungeon(){
+        if(currLoc.location instanceof Dungeon){
+            return(
+                <div className="enter-dun">
+                    <button>Enter {currLoc.location.name}</button>
+                </div>
+            )
+        }else return(<></>)
+    }
+
     function IdleChoices():ReactElement{
         return(
             <div className="out-of-battle-choices">
@@ -191,7 +201,10 @@ export default function Game():ReactElement{
                     )
                     :
                     (
-                        <NextLocBtns />
+                        <>
+                            <NextLocBtns />
+                            <EnterDungeon />
+                        </>
                     )
                 }
             </div>
