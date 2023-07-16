@@ -181,8 +181,6 @@ export default function Game():ReactElement{
     }
 
     function IdleChoices():ReactElement{
-        let choices:ReactElement[]=[]
-
         return(
             <div className="out-of-battle-choices">
                 {
