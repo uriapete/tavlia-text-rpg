@@ -1,15 +1,7 @@
-import { ReactElement, useContext } from "react";
 import Campaign, { GameLocationConnections } from "../gameData/classes/Campaign";
-import { UserToken } from "../hooks/Contexts";
 import ISaveData from "../interfaces/ISaveData";
 
-export default async function saveGame(campaign:Campaign,location?:GameLocationConnections){
-    const userTokenContext=useContext(UserToken)
-    if(userTokenContext===null){
-        return null
-    }
-
-    const {userToken}=userTokenContext
+export default async function saveGame(userToken:string, campaign:Campaign,location?:GameLocationConnections){
 
     const saveData:ISaveData={
         campaign_data:JSON.stringify(campaign),
