@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import './styles/Game.scss'
 import baseCampaign from "../gameData/mainCampaignData";
 import { GameLocationConnections } from "../gameData/classes/Campaign";
@@ -12,8 +12,12 @@ import PhysicalAttack from "../gameData/classes/skills/PhysicalAttack";
 import Entity from "../gameData/classes/entities/Entity";
 import { DmgReturn } from "../gameData/interfaces/entities/IEntity";
 import DungeonLevel from "../gameData/classes/locations/DungeonLevel";
+import saveGame from "../functions/saveGame";
+import { UserToken } from "../hooks/Contexts";
 
 export default function Game():ReactElement{
+    const UserTokenContext=useContext(UserToken)
+
     const [GameTextWindow, setGameTextWindow] = useState<ReactElement[]>([
         <p key={0}>You begin in {baseCampaign.locations[0].location.name}.</p>,
         <p key={1}>What do you do?</p>
@@ -407,6 +411,17 @@ export default function Game():ReactElement{
         <div className="page page-game">
             <div className="game game-text-window">
                 {GameTextWindow}
+            </div>
+            <div className="save-btn">
+                <button onClick={()=>{
+                    if(UserTokenContext===null){
+                        return null
+                    }
+                    if(UserTokenContext.userToken===null){
+                        return null
+                    }
+                    saveGame(UserTokenContext.userToken,baseCampaign,currLoc)
+                }}>Save</button>
             </div>
             <div className="game game-info-panels">
                 <div className="game player-stats">
