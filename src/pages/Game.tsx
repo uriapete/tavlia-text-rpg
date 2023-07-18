@@ -16,6 +16,7 @@ import saveGame from "../functions/saveGame";
 import { UserToken } from "../hooks/Contexts";
 import useUserSaves from "../hooks/useUserSaves";
 import useLoadSave from "../hooks/useLoadSave";
+import SaveResponse from "../interfaces/SaveResponse";
 
 export default function Game():ReactElement{
     const UserTokenContext = useContext(UserToken)
@@ -32,7 +33,9 @@ export default function Game():ReactElement{
         setGameTextWindow(GameTextWindow)
     }
 
-    const userSaves=useUserSaves()
+    const [currSave, setCurrSave] = useState<SaveResponse|null>(null)
+
+    const userSaves=useUserSaves(currSave)
     
     const {playerChar,locations} = baseCampaign
     
@@ -461,14 +464,14 @@ export default function Game():ReactElement{
                 {GameTextWindow}
             </div>
             <div className="save-btn">
-                <button onClick={()=>{
+                <button onClick={async()=>{
                     if(UserTokenContext===null){
                         return null
                     }
                     if(UserTokenContext.userToken===null){
                         return null
                     }
-                    saveGame(UserTokenContext.userToken,baseCampaign,currLoc)
+                    setCurrSave(await saveGame(UserTokenContext.userToken,baseCampaign,currLoc))
                 }}>Save</button>
             </div>
             <div className="game game-info-panels">
