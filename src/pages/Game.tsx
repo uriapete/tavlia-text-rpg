@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useState } from "react";
+import { ReactElement, useCallback, useContext, useState } from "react";
 import './styles/Game.scss'
 import baseCampaign from "../gameData/mainCampaignData";
 import { GameLocationConnections } from "../gameData/classes/Campaign";
@@ -18,7 +18,9 @@ import useUserSaves from "../hooks/useUserSaves";
 import useLoadSave from "../hooks/useLoadSave";
 
 export default function Game():ReactElement{
-    const UserTokenContext=useContext(UserToken)
+    const UserTokenContext = useContext(UserToken)
+
+    const [saveID, setSaveID] = useState<number | null>(null)
 
     const [GameTextWindow, setGameTextWindow] = useState<ReactElement[]>([
         <p key={0}>You begin in {baseCampaign.locations[0].location.name}.</p>,
@@ -39,10 +41,6 @@ export default function Game():ReactElement{
     const currLocConns = currLoc.connections
 
     const [enteredFrom, setEnteredFrom] = useState<GameLocationConnections | null>(null)
-    
-    const [saveID, setSaveID] = useState<number|null>(null)
-
-    useLoadSave(locations,saveID)
     
     const [playerHpVisible, setPlayerHpVisible] = useState(playerChar.currHP)
     
@@ -82,6 +80,21 @@ export default function Game():ReactElement{
             <p key={1}>What will you do now?</p>
         ])
     }
+
+    function loadSaveLoc(saveLoc: GameLocationConnections) {
+        setWalkingThruField(0)
+        setInBattle(false)
+        setCurrLoc(saveLoc)
+        saveLoc.visit()
+        setGameTextWindow([
+            <p key={0}>You've arrived in {saveLoc.location.name}.</p>,
+            <p key={1}>What will you do now?</p>
+        ])
+    }
+
+    useLoadSave(locations, useCallback(loadSaveLoc,[]), saveID)
+
+    console.log(saveID)
 
     function startBattle(...newEnemies:Enemy[]){
         if(newEnemies.length<=0){
@@ -426,8 +439,15 @@ export default function Game():ReactElement{
                 {userSaves.map((save,idx)=>{
                     return(
                         <div className="save">
-                            <h3>{new Date(save.last_updated).toLocaleString()}</h3>
-                            <h3>{locations[save.current_location].location.name}</h3>
+                            <div className="save-info">
+                                <h3>{new Date(save.last_updated).toLocaleString()}</h3>
+                                <h3>{locations[save.current_location].location.name}</h3>
+                            </div>
+                            <div className="save-control">
+                                <button onClick={()=>{
+                                    setSaveID(save.pk)
+                                }}>Load</button>
+                            </div>
                         </div>
                     )
                 })}
