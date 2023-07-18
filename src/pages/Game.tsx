@@ -14,6 +14,7 @@ import { DmgReturn } from "../gameData/interfaces/entities/IEntity";
 import DungeonLevel from "../gameData/classes/locations/DungeonLevel";
 import saveGame from "../functions/saveGame";
 import { UserToken } from "../hooks/Contexts";
+import useUserSaves from "../hooks/useUserSaves";
 
 export default function Game():ReactElement{
     const UserTokenContext=useContext(UserToken)
@@ -27,6 +28,8 @@ export default function Game():ReactElement{
         GameTextWindow.push(...newText)
         setGameTextWindow(GameTextWindow)
     }
+
+    const userSaves=useUserSaves()
 
     const {playerChar,locations} = baseCampaign
 
@@ -407,6 +410,26 @@ export default function Game():ReactElement{
         )
     }
 
+    function ListUserSaves(){
+        if(userSaves===null){
+            return(
+                <></>
+            )
+        }
+        return(
+            <div className="user-saves-list">
+                {userSaves.map((save,idx)=>{
+                    return(
+                        <div className="save">
+                            <h3>{new Date(save.last_updated).toLocaleString()}</h3>
+                            <h3>{locations[save.current_location].location.name}</h3>
+                        </div>
+                    )
+                })}
+            </div>
+        )
+    }
+
     return(
         <div className="page page-game">
             <div className="game game-text-window">
@@ -441,6 +464,9 @@ export default function Game():ReactElement{
                             </div>
                         )
                 }
+            </div>
+            <div className="saves">
+                <ListUserSaves />
             </div>
         </div>
     )
