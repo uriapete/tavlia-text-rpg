@@ -19,14 +19,13 @@ export default async function saveGame(userToken:string, campaign:Campaign,locat
         }
 
         if(checkForFlags){
-            if(typeof accFlag==="undefined"){
-                continue
-            }
-            if(accFlag.type===AccessFlagTypes.Visited){
-                if(!accFlag.location.visited){
-                    checkForFlags=false
-                }else{
-                    flags++
+            if(typeof accFlag!=="undefined"){
+                if(accFlag.type===AccessFlagTypes.Visited){
+                    if(!accFlag.location.visited){
+                        checkForFlags=false
+                    }else{
+                        flags++
+                    }
                 }
             }
         }
