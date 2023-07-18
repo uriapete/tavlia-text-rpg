@@ -2,9 +2,12 @@ import { ReactElement, useContext } from 'react';
 import './styles/Header.scss'
 import { UserToken } from '../hooks/Contexts';
 import getLogin from '../functions/getLogin';
+import useUserData from '../hooks/useUserData';
 
 export default function Header():ReactElement{
-    const UserTokenContext=useContext(UserToken)
+    const UserTokenContext = useContext(UserToken)
+
+    const user = useUserData()
 
     async function handleLogin(e:React.FormEvent<HTMLFormElement>){
         if(UserTokenContext===null){
@@ -45,6 +48,13 @@ export default function Header():ReactElement{
                         </div>
                         <button type="submit">Login</button>
                     </form>
+                </div>
+            )
+        }else{
+            console.log(user)
+            authPart=(
+                <div>
+                    <h3>{user?user.user:"loading..."}</h3>
                 </div>
             )
         }
