@@ -51,7 +51,6 @@ export default function Header():ReactElement{
                 </div>
             )
         }else{
-            console.log(user)
             authPart=(
                 <div>
                     <h3>{user?user.user:"loading..."}</h3>
