@@ -1,6 +1,7 @@
 import Campaign, { GameLocationConnections } from "../gameData/classes/Campaign";
 import { AccessFlagTypes } from "../gameData/interfaces/ICampaign";
 import ISaveData from "../interfaces/ISaveData";
+import SaveResponse from "../interfaces/SaveResponse";
 
 export default async function saveGame(userToken:string, campaign:Campaign,location?:GameLocationConnections){
     let flags=0
@@ -52,7 +53,7 @@ export default async function saveGame(userToken:string, campaign:Campaign,locat
         }
     )
 
-    const respData=await response.json()
+    const respData:SaveResponse=await response.json()
 
     return respData
 }
