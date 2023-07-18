@@ -6,4 +6,6 @@ export default interface SaveResponse extends ISaveData{
     user:number
     created_on:string
     last_updated:string
+    pk:number
+    url:string
 }
