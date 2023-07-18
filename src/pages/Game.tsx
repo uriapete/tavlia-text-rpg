@@ -15,6 +15,7 @@ import DungeonLevel from "../gameData/classes/locations/DungeonLevel";
 import saveGame from "../functions/saveGame";
 import { UserToken } from "../hooks/Contexts";
 import useUserSaves from "../hooks/useUserSaves";
+import useLoadSave from "../hooks/useLoadSave";
 
 export default function Game():ReactElement{
     const UserTokenContext=useContext(UserToken)
@@ -30,14 +31,18 @@ export default function Game():ReactElement{
     }
 
     const userSaves=useUserSaves()
-
+    
     const {playerChar,locations} = baseCampaign
-
+    
     const [currLoc, setCurrLoc] = useState<GameLocationConnections>(locations[0])
 
     const currLocConns = currLoc.connections
 
-    const [enteredFrom, setEnteredFrom] = useState<GameLocationConnections>(locations[0])
+    const [enteredFrom, setEnteredFrom] = useState<GameLocationConnections | null>(null)
+    
+    const [saveID, setSaveID] = useState<number|null>(null)
+
+    useLoadSave(locations,saveID)
     
     const [playerHpVisible, setPlayerHpVisible] = useState(playerChar.currHP)
     
