@@ -3,6 +3,7 @@ import './styles/Header.scss'
 import { UserToken } from '../hooks/Contexts';
 import getLogin from '../functions/getLogin';
 import useUserData from '../hooks/useUserData';
+import { Link } from 'react-router-dom';
 
 export default function Header():ReactElement{
     const UserTokenContext = useContext(UserToken)
@@ -23,6 +24,14 @@ export default function Header():ReactElement{
         UserTokenContext.setTokenFn((await getLogin(formData)).token)        
     }
 
+    function handleLogout() {
+        if (UserTokenContext === null) {
+            return null
+        }
+
+        UserTokenContext.setTokenFn(null)
+    }
+
     let authPart=(
         <></>
     )
@@ -35,6 +44,11 @@ export default function Header():ReactElement{
         if(UserTokenContext.userToken===null){
             authPart=(
                 <div className="auth-part">
+                    <button>
+                        <Link to={"signup"} >
+                            Sign Up
+                        </Link>
+                    </button>
                     <form onSubmit={(e)=>{
                         handleLogin(e)
                     }}>
@@ -53,6 +67,19 @@ export default function Header():ReactElement{
         }else{
             authPart=(
                 <div>
+                    {
+                        user?
+                        (
+                            <>
+                                <h3>{user.user}</h3>
+                                <button onClick={handleLogout}>logout</button>
+                            </>
+                        )
+                        :
+                        (
+                            <h3>loading...</h3>
+                        )
+                    }
                     <h3>{user?user.user:"loading..."}</h3>
                 </div>
             )
