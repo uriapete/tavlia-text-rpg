@@ -3,7 +3,11 @@ import { AccessFlagTypes } from "../gameData/interfaces/ICampaign";
 import ISaveData from "../interfaces/ISaveData";
 import SaveResponse from "../interfaces/SaveResponse";
 
-export default async function saveGame(userToken:string, campaign:Campaign,location?:GameLocationConnections){
+export default async function saveGame(
+    userToken:string,
+    campaign:Campaign,
+    location?:GameLocationConnections,
+    saveID?:number){
     let flags=0
     let loc=0
     let checkForCurrLoc=true
@@ -41,9 +45,9 @@ export default async function saveGame(userToken:string, campaign:Campaign,locat
     }
 
     const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/save_files/`,
+        `${process.env.REACT_APP_API_URL}/save_files/${typeof saveID !== "undefined"?`${saveID}/`:""}`,
         {
-            method: "POST",
+            method: `${typeof saveID!=="undefined"?"PUT":"POST"}`,
             body:JSON.stringify(saveData),
             headers: {
                 'Accept': 'application/json',
