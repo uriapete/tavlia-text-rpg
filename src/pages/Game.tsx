@@ -97,8 +97,6 @@ export default function Game():ReactElement{
 
     useLoadSave(locations, useCallback(loadSaveLoc,[]), saveID)
 
-    console.log(saveID)
-
     function startBattle(...newEnemies:Enemy[]){
         if(newEnemies.length<=0){
             return null
@@ -447,6 +445,15 @@ export default function Game():ReactElement{
                                 <h3>{locations[save.current_location].location.name}</h3>
                             </div>
                             <div className="save-control">
+                                <button onClick={async()=>{
+                                    if (UserTokenContext === null) {
+                                        return null
+                                    }
+                                    if (UserTokenContext.userToken === null) {
+                                        return null
+                                    }
+                                    setCurrSave(await saveGame(UserTokenContext.userToken, baseCampaign, currLoc, save.pk))
+                                }}>Overwrite Save</button>
                                 <button onClick={()=>{
                                     setSaveID(save.pk)
                                 }}>Load</button>
