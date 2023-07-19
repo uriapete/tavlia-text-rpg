@@ -16,7 +16,6 @@ import saveGame from "../functions/saveGame";
 import { UserToken } from "../hooks/Contexts";
 import useUserSaves from "../hooks/useUserSaves";
 import useLoadSave from "../hooks/useLoadSave";
-import SaveResponse from "../interfaces/SaveResponse";
 import deleteSave from "../functions/deleteSave";
 
 export default function Game():ReactElement{
@@ -53,8 +52,6 @@ export default function Game():ReactElement{
     const [playerHpVisible, setPlayerHpVisible] = useState(playerChar.currHP)
     
     const [inBattle, setInBattle] = useState<boolean>(false)
-
-    // const enemiesInPlay:Enemy[]=[]
 
     const [enemiesInPlay, setEnemiesInPlay] = useState<Enemy[]>([])
 
@@ -275,7 +272,6 @@ export default function Game():ReactElement{
         if(selectingEnemy==null){
             return null
         }
-        // console.log("enemy confirmed")
         attList.push(new MoveTurnInfo(playerChar,selectingEnemy,enemy))
         setSelectingEnemy(null)
         enemySelectMoves()
@@ -288,12 +284,6 @@ export default function Game():ReactElement{
         enemySelectMoves()
         playTurn()
     }
-
-    // function commitTurns(playerTargetSelect:Enemy){
-    //     handleEnemySelect(playerTargetSelect)
-    //     enemySelectMoves()
-    //     playTurn()
-    // }
 
     function playerRunAway(){
         if(currLoc.location instanceof DungeonLevel){
@@ -362,7 +352,6 @@ export default function Game():ReactElement{
                 }
                 updateEntities()
             }
-            // console.log(`turn done, playerhp ${playerChar.currHP}, enemy hp ${enemiesInPlay[0].currHP}`)
         }
         for (let i = 0; i < enemiesInPlay.length; i++) {
             const enemy = enemiesInPlay[i];
