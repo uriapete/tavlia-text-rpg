@@ -24,6 +24,14 @@ export default function Header():ReactElement{
         UserTokenContext.setTokenFn((await getLogin(formData)).token)        
     }
 
+    function handleLogout() {
+        if (UserTokenContext === null) {
+            return null
+        }
+
+        UserTokenContext.setTokenFn(null)
+    }
+
     let authPart=(
         <></>
     )
@@ -59,6 +67,19 @@ export default function Header():ReactElement{
         }else{
             authPart=(
                 <div>
+                    {
+                        user?
+                        (
+                            <>
+                                <h3>{user.user}</h3>
+                                <button onClick={handleLogout}>logout</button>
+                            </>
+                        )
+                        :
+                        (
+                            <h3>loading...</h3>
+                        )
+                    }
                     <h3>{user?user.user:"loading..."}</h3>
                 </div>
             )
