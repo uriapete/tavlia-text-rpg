@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserToken } from "./Contexts";
 import SaveResponse from "../interfaces/SaveResponse";
 
-export default function useUserSaves(currSave?:null|SaveResponse) {
+export default function useUserSaves(state?:any) {
     const TokenContext = useContext(UserToken)
     const [userSaves, setUserSaves] = useState<null | SaveResponse[]>(null)
     useEffect(() => {
@@ -36,6 +36,6 @@ export default function useUserSaves(currSave?:null|SaveResponse) {
         } catch (error) {
             console.log(error)
         }
-    }, [TokenContext,currSave])
+    }, [TokenContext,state])
     return userSaves
 }
