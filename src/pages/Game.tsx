@@ -17,6 +17,7 @@ import { UserToken } from "../hooks/Contexts";
 import useUserSaves from "../hooks/useUserSaves";
 import useLoadSave from "../hooks/useLoadSave";
 import SaveResponse from "../interfaces/SaveResponse";
+import deleteSave from "../functions/deleteSave";
 
 export default function Game():ReactElement{
     const UserTokenContext = useContext(UserToken)
@@ -33,9 +34,13 @@ export default function Game():ReactElement{
         setGameTextWindow(GameTextWindow)
     }
 
-    const [currSave, setCurrSave] = useState<SaveResponse|null>(null)
+    const [saveActions, setSaveActions] = useState(0)
 
-    const userSaves=useUserSaves(currSave)
+    function incrementSaveActions(){
+        setSaveActions(saveActions+1)
+    }
+
+    const userSaves=useUserSaves(saveActions)
     
     const {playerChar,locations} = baseCampaign
     
@@ -445,18 +450,29 @@ export default function Game():ReactElement{
                                 <h3>{locations[save.current_location].location.name}</h3>
                             </div>
                             <div className="save-control">
-                                <button onClick={async()=>{
+                                <button onClick={()=>{
                                     if (UserTokenContext === null) {
                                         return null
                                     }
                                     if (UserTokenContext.userToken === null) {
                                         return null
                                     }
-                                    setCurrSave(await saveGame(UserTokenContext.userToken, baseCampaign, currLoc, save.pk))
+                                    saveGame(UserTokenContext.userToken, baseCampaign, currLoc, save.pk)
+                                    incrementSaveActions()
                                 }}>Overwrite Save</button>
                                 <button onClick={()=>{
                                     setSaveID(save.pk)
                                 }}>Load</button>
+                                <button onClick={() => {
+                                    if (UserTokenContext === null) {
+                                        return null
+                                    }
+                                    if (UserTokenContext.userToken === null) {
+                                        return null
+                                    }
+                                    deleteSave(UserTokenContext.userToken,save.pk)
+                                    incrementSaveActions()
+                                }}>Delete</button>
                             </div>
                         </div>
                     )
@@ -471,14 +487,15 @@ export default function Game():ReactElement{
                 {GameTextWindow}
             </div>
             <div className="save-btn">
-                <button onClick={async()=>{
+                <button onClick={()=>{
                     if(UserTokenContext===null){
                         return null
                     }
                     if(UserTokenContext.userToken===null){
                         return null
                     }
-                    setCurrSave(await saveGame(UserTokenContext.userToken,baseCampaign,currLoc))
+                    saveGame(UserTokenContext.userToken,baseCampaign,currLoc)
+                    incrementSaveActions()
                 }}>Save</button>
             </div>
             <div className="game game-info-panels">
