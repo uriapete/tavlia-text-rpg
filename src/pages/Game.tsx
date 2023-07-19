@@ -1,18 +1,28 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useCallback, useContext, useState } from "react";
 import './styles/Game.scss'
 import baseCampaign from "../gameData/mainCampaignData";
 import { GameLocationConnections } from "../gameData/classes/Campaign";
 import { isField } from "../gameData/classes/locations/Field";
 import { isTown } from "../gameData/classes/locations/Town";
-import { isDungeon } from "../gameData/classes/locations/Dungeon";
+import Dungeon, { isDungeon } from "../gameData/classes/locations/Dungeon";
 import { AccessFlagTypes } from "../gameData/interfaces/ICampaign";
 import Enemy from "../gameData/classes/entities/Enemy";
 import Skill from "../gameData/classes/skills/Skill";
 import PhysicalAttack from "../gameData/classes/skills/PhysicalAttack";
 import Entity from "../gameData/classes/entities/Entity";
 import { DmgReturn } from "../gameData/interfaces/entities/IEntity";
+import DungeonLevel from "../gameData/classes/locations/DungeonLevel";
+import saveGame from "../functions/saveGame";
+import { UserToken } from "../hooks/Contexts";
+import useUserSaves from "../hooks/useUserSaves";
+import useLoadSave from "../hooks/useLoadSave";
+import deleteSave from "../functions/deleteSave";
 
 export default function Game():ReactElement{
+    const UserTokenContext = useContext(UserToken)
+
+    const [saveID, setSaveID] = useState<number | null>(null)
+
     const [GameTextWindow, setGameTextWindow] = useState<ReactElement[]>([
         <p key={0}>You begin in {baseCampaign.locations[0].location.name}.</p>,
         <p key={1}>What do you do?</p>
@@ -23,19 +33,25 @@ export default function Game():ReactElement{
         setGameTextWindow(GameTextWindow)
     }
 
-    const {playerChar,locations} = baseCampaign
+    const [saveActions, setSaveActions] = useState(0)
 
+    function incrementSaveActions(){
+        setSaveActions(saveActions+1)
+    }
+
+    const userSaves=useUserSaves(saveActions)
+    
+    const {playerChar,locations} = baseCampaign
+    
     const [currLoc, setCurrLoc] = useState<GameLocationConnections>(locations[0])
 
     const currLocConns = currLoc.connections
 
-    const [enteredFrom, setEnteredFrom] = useState<GameLocationConnections>(locations[0])
+    const [enteredFrom, setEnteredFrom] = useState<GameLocationConnections | null>(null)
     
     const [playerHpVisible, setPlayerHpVisible] = useState(playerChar.currHP)
     
     const [inBattle, setInBattle] = useState<boolean>(false)
-
-    // const enemiesInPlay:Enemy[]=[]
 
     const [enemiesInPlay, setEnemiesInPlay] = useState<Enemy[]>([])
 
@@ -69,6 +85,19 @@ export default function Game():ReactElement{
             <p key={1}>What will you do now?</p>
         ])
     }
+
+    function loadSaveLoc(saveLoc: GameLocationConnections) {
+        setWalkingThruField(0)
+        setInBattle(false)
+        setCurrLoc(saveLoc)
+        saveLoc.visit()
+        setGameTextWindow([
+            <p key={0}>You've arrived in {saveLoc.location.name}.</p>,
+            <p key={1}>What will you do now?</p>
+        ])
+    }
+
+    useLoadSave(locations, useCallback(loadSaveLoc,[]), saveID)
 
     function startBattle(...newEnemies:Enemy[]){
         if(newEnemies.length<=0){
@@ -180,6 +209,16 @@ export default function Game():ReactElement{
         )
     }
 
+    function EnterDungeon(){
+        if(currLoc.location instanceof Dungeon){
+            return(
+                <div className="enter-dun">
+                    <button>Enter {currLoc.location.name}</button>
+                </div>
+            )
+        }else return(<></>)
+    }
+
     function IdleChoices():ReactElement{
         return(
             <div className="out-of-battle-choices">
@@ -190,7 +229,10 @@ export default function Game():ReactElement{
                     )
                     :
                     (
-                        <NextLocBtns />
+                        <>
+                            <NextLocBtns />
+                            <EnterDungeon />
+                        </>
                     )
                 }
             </div>
@@ -230,7 +272,6 @@ export default function Game():ReactElement{
         if(selectingEnemy==null){
             return null
         }
-        // console.log("enemy confirmed")
         attList.push(new MoveTurnInfo(playerChar,selectingEnemy,enemy))
         setSelectingEnemy(null)
         enemySelectMoves()
@@ -244,14 +285,14 @@ export default function Game():ReactElement{
         playTurn()
     }
 
-    // function commitTurns(playerTargetSelect:Enemy){
-    //     handleEnemySelect(playerTargetSelect)
-    //     enemySelectMoves()
-    //     playTurn()
-    // }
-
     function playerRunAway(){
-        if(Math.random()>.65){
+        if(currLoc.location instanceof DungeonLevel){
+            addToGameTextWindow(
+                <p>Can't run away from a dungeon battle!</p>
+            )
+            return false
+        }
+        if(Math.random()<.50){
             setInBattle(false)
             setEnemiesInPlay([])
             callNextFn()
@@ -311,7 +352,6 @@ export default function Game():ReactElement{
                 }
                 updateEntities()
             }
-            // console.log(`turn done, playerhp ${playerChar.currHP}, enemy hp ${enemiesInPlay[0].currHP}`)
         }
         for (let i = 0; i < enemiesInPlay.length; i++) {
             const enemy = enemiesInPlay[i];
@@ -383,10 +423,69 @@ export default function Game():ReactElement{
         )
     }
 
+    function ListUserSaves(){
+        if(userSaves===null){
+            return(
+                <></>
+            )
+        }
+        return(
+            <div className="user-saves-list">
+                {userSaves.map((save,idx)=>{
+                    return(
+                        <div className="save">
+                            <div className="save-info">
+                                <h3>{new Date(save.last_updated).toLocaleString()}</h3>
+                                <h3>{locations[save.current_location].location.name}</h3>
+                            </div>
+                            <div className="save-control">
+                                <button onClick={()=>{
+                                    if (UserTokenContext === null) {
+                                        return null
+                                    }
+                                    if (UserTokenContext.userToken === null) {
+                                        return null
+                                    }
+                                    saveGame(UserTokenContext.userToken, baseCampaign, currLoc, save.pk)
+                                    incrementSaveActions()
+                                }}>Overwrite Save</button>
+                                <button onClick={()=>{
+                                    setSaveID(save.pk)
+                                }}>Load</button>
+                                <button onClick={() => {
+                                    if (UserTokenContext === null) {
+                                        return null
+                                    }
+                                    if (UserTokenContext.userToken === null) {
+                                        return null
+                                    }
+                                    deleteSave(UserTokenContext.userToken,save.pk)
+                                    incrementSaveActions()
+                                }}>Delete</button>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+        )
+    }
+
     return(
         <div className="page page-game">
             <div className="game game-text-window">
                 {GameTextWindow}
+            </div>
+            <div className="save-btn">
+                <button onClick={()=>{
+                    if(UserTokenContext===null){
+                        return null
+                    }
+                    if(UserTokenContext.userToken===null){
+                        return null
+                    }
+                    saveGame(UserTokenContext.userToken,baseCampaign,currLoc)
+                    incrementSaveActions()
+                }}>Save</button>
             </div>
             <div className="game game-info-panels">
                 <div className="game player-stats">
@@ -406,6 +505,9 @@ export default function Game():ReactElement{
                             </div>
                         )
                 }
+            </div>
+            <div className="saves">
+                <ListUserSaves />
             </div>
         </div>
     )
