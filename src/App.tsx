@@ -5,6 +5,7 @@ import Game from './pages/Game';
 import { UserToken } from './hooks/Contexts';
 import { useState } from 'react';
 import Header from './components/Header';
+import SignUp from './pages/SignUp';
 
 function App() {
   const [userToken, setUserToken] = useState<null|string>(null)
@@ -22,6 +23,7 @@ function App() {
           <Routes>
             <Route path='' element={<Home/>} />
             <Route path='game' element={<Game/>} />
+            <Route path='signup' element={<SignUp/>} />
           </Routes>
         </main>
       </UserToken.Provider>
