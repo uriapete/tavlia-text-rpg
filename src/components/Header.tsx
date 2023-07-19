@@ -3,6 +3,7 @@ import './styles/Header.scss'
 import { UserToken } from '../hooks/Contexts';
 import getLogin from '../functions/getLogin';
 import useUserData from '../hooks/useUserData';
+import { Link } from 'react-router-dom';
 
 export default function Header():ReactElement{
     const UserTokenContext = useContext(UserToken)
@@ -35,6 +36,11 @@ export default function Header():ReactElement{
         if(UserTokenContext.userToken===null){
             authPart=(
                 <div className="auth-part">
+                    <button>
+                        <Link to={"signup"} >
+                            Sign Up
+                        </Link>
+                    </button>
                     <form onSubmit={(e)=>{
                         handleLogin(e)
                     }}>
