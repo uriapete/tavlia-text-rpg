@@ -3,10 +3,12 @@ import './styles/Header.scss'
 import { UserToken } from '../hooks/Contexts';
 import getLogin from '../functions/getLogin';
 import useUserData from '../hooks/useUserData';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Header():ReactElement{
     const UserTokenContext = useContext(UserToken)
+
+    const navigate=useNavigate()
 
     const user = useUserData()
 
@@ -30,6 +32,8 @@ export default function Header():ReactElement{
         }
 
         UserTokenContext.setTokenFn(null)
+
+        navigate("/")
     }
 
     let authPart=(
@@ -80,7 +84,6 @@ export default function Header():ReactElement{
                             <h3>loading...</h3>
                         )
                     }
-                    <h3>{user?user.user:"loading..."}</h3>
                 </div>
             )
         }
