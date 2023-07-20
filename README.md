@@ -5,7 +5,7 @@ A user, browser, and text-based RPG.
 Using a Django-Python-powered CRUD/REST API to manage data, like campaigns, campaign assets, save data, and users, and a React-TypeScript frontend to display and play, this game will aim to be robust and dynamic and allowing for user-creativity and sharing.
 
 ## Can I play?
-Hold on there, pardner! This project isn't even out of it's planning phase yet!
+You can play it [here](https://tavlia.netlify.app/).
 
 # Design
 
@@ -16,8 +16,8 @@ Hold on there, pardner! This project isn't even out of it's planning phase yet!
 For the MVP, there will be one main sample campaign.
 
 As a user, I want to be able to:
-- [ ] Be able to save my progress for the campaign so I can play at my own pace without having to play and complete campaigns in one sitting
-- [ ] Have my saves linked to my user account so no one else can alter my saves without my permission
+- [x] Be able to save my progress for the campaign so I can play at my own pace without having to play and complete campaigns in one sitting
+- [x] Have my saves linked to my user account so no one else can alter my saves without my permission
 
 ### Stretch/Extra
 
